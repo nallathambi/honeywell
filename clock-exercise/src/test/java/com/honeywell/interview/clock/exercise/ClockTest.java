@@ -37,16 +37,11 @@ public class ClockTest {
         Time timeOb = new Time(03, 00, 0);
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(timeOb);
-        MockHttpServletResponse response = mockMvc.perform(post("/angle")
-                .contentType("application/json")
-                .content(requestJson))
-                .andDo(print())
-                .andExpect(status().isCreated()).andReturn().getResponse();
-        String time = JsonPath.parse(response.getContentAsString()).read("$.time");
 
-        mockMvc.perform(get("/angle/" + time))
+
+        mockMvc.perform(get("/angle/" + "03:00"))
                 .andDo(print())
-                .andExpect(jsonPath("$.angle").value(time))
+                .andExpect(jsonPath("$.angle").value(90))
                 .andExpect(status().isOk());
     }
 }
